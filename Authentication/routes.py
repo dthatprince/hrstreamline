@@ -1,3 +1,4 @@
+from datetime import date, timedelta
 from flask_restx import Namespace, Resource, fields  # API documentation
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 from db import db
@@ -34,6 +35,7 @@ message_model = auth_ns.model('Message', {
 })
 
 
+
 @auth_ns.route('/')
 class Home(Resource):
     def get(self):
@@ -61,7 +63,16 @@ class Register(Resource):
             phone_no=data.get('phone_no'),
             gender=data.get('gender'),
             address=data.get('address'),
-            country=data.get('country')
+            country=data.get('country'),
+            emp_department=None,  # or 'Unassigned'
+            emp_team=None,
+            emp_position=None,
+            emp_rank=None,
+            emp_leave_balance=0.0,  
+            emp_start_date=date.today(),
+            emp_end_date=None,
+            emp_status="Active",
+            emp_work_status="In office"
         )
         db.session.add(employee)
         db.session.commit()
@@ -74,13 +85,32 @@ class Login(Resource):
     @auth_ns.expect(login_model)
     @auth_ns.response(200, 'Success', model=token_model)
     @auth_ns.response(401, 'Invalid email or password', model=message_model)
+    @auth_ns.response(403, 'Access forbidden: Terminated employee', model=message_model)
     def post(self):
         data = auth_ns.payload
         auth = Auth.query.filter_by(email=data['email']).first()
+        
         if not auth or not bcrypt.check_password_hash(auth.password_hash, data['password']):
             return {"message": "Invalid email or password"}, 401
 
-        access_token = create_access_token(identity=auth.email)
+        employee = Employee.query.filter_by(auth_id=auth.id).first()
+        
+        # Check for terminated status
+        if employee and employee.emp_status == "Terminated":
+            return {"message": "Access forbidden: Your account has been terminated"}, 403
+
+        access_token = create_access_token(
+            identity=auth.email,
+            additional_claims={
+                'auth_id': auth.id,
+                'emp_id': employee.id,
+                'emp_rank': employee.emp_rank if employee else None,
+                'emp_department': employee.emp_department if employee else None,
+                'full_name': f"{employee.first_name} {employee.last_name}",
+                "emp_status": employee.emp_status if employee else None
+            },
+            # expires_delta=timedelta(hours=2)
+        )
         return {"access_token": access_token}, 200
 
 

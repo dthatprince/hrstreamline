@@ -9,7 +9,7 @@ import extensions as security_utils
 
 
 from Authentication.routes import auth_ns
-
+from EmployeeManagement.routes import employee_ns
 
 
 def create_app():
@@ -35,6 +35,7 @@ def create_app():
     
     # Register the auth namespace
     api.add_namespace(auth_ns)
+    api.add_namespace(employee_ns)
 
     return app
 
