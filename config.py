@@ -10,7 +10,7 @@ class ProductionConfig(Config):
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 
 class DevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_URI = "sqlite:///hrstreamlineapp.db"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///hr_streamline_app.db"
     #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.getcwd(), 'instance', 'hrstreamlineapp.db')
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 
