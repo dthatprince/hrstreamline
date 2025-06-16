@@ -29,7 +29,5 @@ class Employee(db.Model):
     emp_work_status: Mapped[str] = mapped_column(String(20), nullable=True)
 
 
-    auth = relationship(
-        "Auth",
-        back_populates="employee"
-    )
+    auth = relationship("Auth", back_populates="employee")
+    attendance_records = relationship("Attendance", back_populates="employee", cascade="all, delete-orphan")
