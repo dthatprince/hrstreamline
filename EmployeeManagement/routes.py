@@ -6,6 +6,7 @@ from db import db
 from extensions import bcrypt, blacklist
 from Authentication.models import Auth
 from EmployeeManagement.models import Employee
+from helpers import get_current_employee, get_employee_by_id  
 
 employee_ns = Namespace('employees', description='Employee related operations')
 
@@ -54,18 +55,6 @@ hr_update_model = employee_ns.model('HRUpdate', {
     'emp_status': fields.String
 })
 
-# Helper function to get current employee claims from JWT
-def get_current_employee():
-    claims = get_jwt()
-    return {
-        'emp_id': claims.get('emp_id'),
-        'emp_rank': claims.get('emp_rank'),
-        'emp_department': claims.get('emp_department')
-    }
-
-# Helper function to get employee by ID
-def get_employee_by_id(emp_id):
-    return Employee.query.filter_by(id=emp_id).first()
 
 
 # View Personal Profile
