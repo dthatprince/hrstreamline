@@ -176,6 +176,36 @@ class RejectRequest(Resource):
         return {'message': 'Leave rejected'}, 200
 
 
+@leave_ns.route('/start')
+class StartLeave(Resource):
+    @jwt_required()
+    def post(self):
+        claims = get_current_employee()
+        today = datetime.today().date()
+
+        employee = Employee.query.get(claims['emp_id'])
+
+        if not employee:
+            return {"message": "Employee not found."}, 404
+
+        if employee.emp_work_status == 'On leave':
+            return {"message": "You are already on leave."}, 400
+
+        approved_leave = LeaveRequest.query.filter_by(
+            employee_id=employee.id,
+            status=LeaveStatusEnum.APPROVED,
+            start_date=today
+        ).first()
+
+        if not approved_leave:
+            return {"message": "No approved leave starting today."}, 400
+
+        employee.emp_work_status = 'On leave'
+        db.session.commit()
+
+        return {"message": "Leave started. Your status has been updated to 'on leave'."}, 200
+
+
 
 @leave_ns.route('/balance')
 class LeaveBalance(Resource):
