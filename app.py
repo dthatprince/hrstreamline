@@ -11,6 +11,7 @@ import extensions as security_utils
 from Authentication.routes import auth_ns
 from EmployeeManagement.routes import employee_ns
 from AttendanceManagement.routes import attendance_ns
+from LeaveManagement.routes import leave_ns
 
 
 def create_app():
@@ -38,6 +39,7 @@ def create_app():
     api.add_namespace(auth_ns)
     api.add_namespace(employee_ns)
     api.add_namespace(attendance_ns)
+    api.add_namespace(leave_ns)
 
     return app
 

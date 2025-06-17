@@ -31,3 +31,6 @@ class Employee(db.Model):
 
     auth = relationship("Auth", back_populates="employee")
     attendance_records = relationship("Attendance", back_populates="employee", cascade="all, delete-orphan")
+
+    leave_requests = relationship("LeaveRequest", foreign_keys="[LeaveRequest.employee_id]", back_populates="employee")
+    approved_requests = relationship("LeaveRequest", foreign_keys="[LeaveRequest.approved_by]", back_populates="approver", lazy=True)

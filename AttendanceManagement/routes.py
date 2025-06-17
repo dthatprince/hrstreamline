@@ -8,6 +8,7 @@ from db import db
 from AttendanceManagement.models import Attendance
 from EmployeeManagement.models import Employee
 from Authentication.models import Auth
+from helpers import get_current_employee, get_filtered_attendance
 
 attendance_ns = Namespace('attendance', description='Attendance management')
 
@@ -26,35 +27,21 @@ message_model = attendance_ns.model('Message', {
     'message': fields.String
 })
 
-# Helper functions
-def get_current_employee():
-    from flask_jwt_extended import get_jwt
-    claims = get_jwt()
-    return {
-        'emp_id': claims.get('emp_id'),
-        'emp_rank': claims.get('emp_rank'),
-        'emp_department': claims.get('emp_department')
-    }
-'''
-def get_filtered_attendance(queryset, year, month, day):
-    if year:
-        queryset = queryset.filter(db.extract('year', Attendance.date) == int(year))
-    if month:
-        queryset = queryset.filter(db.extract('month', Attendance.date) == int(month))
-    if day:
-        queryset = queryset.filter(db.extract('day', Attendance.date) == int(day))
-    return queryset.order_by(Attendance.date.desc()).all()
-'''
 
-def get_filtered_attendance(queryset, year, month, day):
-    if year:
-        queryset = queryset.filter(db.extract('year', Attendance.date) == int(year))
-    if month:
-        queryset = queryset.filter(db.extract('month', Attendance.date) == int(month))
-    if day:
-        queryset = queryset.filter(db.extract('day', Attendance.date) == int(day))
-    results = queryset.order_by(Attendance.date.desc()).all()
-    return results
+
+@attendance_ns.route('/status')
+class ClockStatus(Resource):
+    @jwt_required()
+    def get(self):
+        claims = get_current_employee()
+        today = date.today()
+        record = Attendance.query.filter_by(employee_id=claims['emp_id'], date=today).first()
+        if not record:
+            return {'status': 'not_clocked_in'}, 200
+        elif record.clock_out_time:
+            return {'status': 'clocked_out'}, 200
+        else:
+            return {'status': 'clocked_in'}, 200
 
 
 @attendance_ns.route('/clock-in')
