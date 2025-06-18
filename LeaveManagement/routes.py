@@ -42,6 +42,7 @@ status_update_model = leave_ns.model('StatusUpdate', {
 # Routes
 @leave_ns.route('/request')
 class LeaveRequestSubmit(Resource):
+    @leave_ns.doc(description='Submit a leave request')
     @jwt_required()
     @leave_ns.expect(request_input_model)
     def post(self):
@@ -81,6 +82,7 @@ class LeaveRequestSubmit(Resource):
 
 @leave_ns.route('/my-requests')
 class MyLeaveRequests(Resource):
+    @leave_ns.doc(description='Get my leave requests')
     @jwt_required()
     def get(self):
         claims = get_current_employee()
@@ -92,6 +94,7 @@ class MyLeaveRequests(Resource):
 
 @leave_ns.route('/pending')
 class PendingRequests(Resource):
+    @leave_ns.doc(description='Get pending leave requests')
     @jwt_required()
     def get(self):
         claims = get_current_employee()
@@ -115,6 +118,7 @@ class PendingRequests(Resource):
 
 @leave_ns.route('/<int:id>/approve')
 class ApproveRequest(Resource):
+    @leave_ns.doc(description='Approve a leave request')
     @jwt_required()
     def put(self, id):
         claims = get_current_employee()
@@ -146,6 +150,7 @@ class ApproveRequest(Resource):
 
 @leave_ns.route('/<int:id>/reject')
 class RejectRequest(Resource):
+    @leave_ns.doc(description='Reject a leave request')
     @jwt_required()
     @leave_ns.expect(status_update_model)
     def put(self, id):
@@ -178,6 +183,7 @@ class RejectRequest(Resource):
 
 @leave_ns.route('/start')
 class StartLeave(Resource):
+    @leave_ns.doc(description='Start a leave request')
     @jwt_required()
     def post(self):
         claims = get_current_employee()
@@ -209,6 +215,7 @@ class StartLeave(Resource):
 
 @leave_ns.route('/balance')
 class LeaveBalance(Resource):
+    @leave_ns.doc(description='Get leave balance')
     @jwt_required()
     def get(self):
         claims = get_current_employee()
