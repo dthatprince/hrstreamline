@@ -32,8 +32,26 @@ def create_app():
         return is_token_revoked(jwt_header, jwt_payload)
     
     
-    # Initialize Flask-RESTX Api with Swagger docs on /docs - http://127.0.0.1:5000/docs
-    api = Api(app, version='1.0', title='HR Streamline API', description='API documentation')
+    # Initialize Flask-RESTX Api with Swagger docs on /docs - http://127.0.0.1:5000/
+    api = Api(
+        app,
+        version='1.0',
+        title='HR Streamline API - API documentation',
+        description=(
+            'A Human Resource Management System (HRMS) designed to streamline core HR processes '
+            'and improve employee management within organizations. This system focuses on managing employee data, '
+            'tracking leave requests, and automating essential HR tasks to enhance operational efficiency and employee experience.'
+        ),
+        security='Bearer',
+        authorizations={
+            'Bearer': {
+                'type': 'apiKey',
+                'in': 'header',
+                'name': 'Authorization',
+                'description': 'JWT token with `Bearer <JWT>` format'
+            }
+        }
+    )
     
     # Register the auth namespace
     api.add_namespace(auth_ns)
