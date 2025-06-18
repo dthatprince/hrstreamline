@@ -59,6 +59,9 @@ def get_filtered_attendance(queryset, year, month, day):
 
 @attendance_ns.route('/clock-in')
 class ClockIn(Resource):
+    @attendance_ns.doc(
+        description="Clock in for the current user."
+    )
     @jwt_required()
     def post(self):
         claims = get_current_employee()
@@ -80,6 +83,9 @@ class ClockIn(Resource):
 
 @attendance_ns.route('/clock-out')
 class ClockOut(Resource):
+    @attendance_ns.doc(
+        description="Clock out for the current user."
+    )
     @jwt_required()
     def post(self):
         claims = get_current_employee()
@@ -101,6 +107,9 @@ class ClockOut(Resource):
 
 @attendance_ns.route('/my-attendance')
 class MyAttendance(Resource):
+    @attendance_ns.doc(
+        description="Get attendance records for the current user."
+    )
     @jwt_required()
     def get(self):
         claims = get_current_employee()
@@ -120,6 +129,9 @@ class MyAttendance(Resource):
 
 @attendance_ns.route('/department-attendance')
 class DepartmentAttendance(Resource):
+    @attendance_ns.doc(
+        description="Get attendance records for the current user's department."
+    )
     @jwt_required()
     def get(self):
         claims = get_current_employee()
@@ -148,6 +160,9 @@ class DepartmentAttendance(Resource):
 
 @attendance_ns.route('/all-attendance')
 class AllAttendance(Resource):
+    @attendance_ns.doc(
+        description="Get attendance records for all employees."
+    )
     @jwt_required()
     def get(self):
         claims = get_current_employee()
@@ -170,6 +185,9 @@ class AllAttendance(Resource):
 
 @attendance_ns.route('/employee/<int:id>/attendance')
 class AttendanceByID(Resource):
+    @attendance_ns.doc(
+        description="Get attendance records for a specific employee."
+    )
     @jwt_required()
     def get(self, id):
         claims = get_current_employee()
@@ -186,6 +204,3 @@ class AttendanceByID(Resource):
         if not records:
             return {'message': 'No attendance records found for employee.'}, 200
         return marshal(records, attendance_model), 200
-
-
-

@@ -37,13 +37,18 @@ message_model = auth_ns.model('Message', {
 
 @auth_ns.route('/home')
 class Home(Resource):
-    @auth_ns.doc(security='Bearer')
+    @auth_ns.doc(
+        description="Home endpoint for authenticated users."
+    )
     @jwt_required()
     def get(self):
         return {"message": "API is working!"}
 
 @auth_ns.route('/register')
 class Register(Resource):
+    @auth_ns.doc(
+        description="Registers a new user."
+    )
     @auth_ns.expect(register_model)
     @auth_ns.response(201, 'User registered successfully', model=message_model)
     @auth_ns.response(400, 'User already exists', model=message_model)
@@ -83,6 +88,9 @@ class Register(Resource):
 
 @auth_ns.route('/login')
 class Login(Resource):
+    @auth_ns.doc(
+        description="Logs in a user and returns a JWT token."
+    )
     @auth_ns.expect(login_model)
     @auth_ns.response(200, 'Success', model=token_model)
     @auth_ns.response(401, 'Invalid email or password', model=message_model)
@@ -118,6 +126,9 @@ class Login(Resource):
 
 @auth_ns.route('/logout')
 class Logout(Resource):
+    @auth_ns.doc(
+        description="Logs out the user by invalidating the JWT token."
+    )
     @jwt_required()
     def post(self):
         jti = get_jwt()["jti"]

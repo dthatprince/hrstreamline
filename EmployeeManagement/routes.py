@@ -71,6 +71,9 @@ def get_employee_by_id(emp_id):
 # View Personal Profile
 @employee_ns.route('/myaccount')
 class MyProfile(Resource):
+    @employee_ns.doc(
+        description="Get the current employee's profile."
+    )
     @jwt_required()
     @employee_ns.marshal_with(employee_model)
     def get(self):
@@ -83,6 +86,9 @@ class MyProfile(Resource):
 # Update Personal Profile
 @employee_ns.route('/myaccount/update')
 class UpdateMyProfile(Resource):
+    @employee_ns.doc(
+        description="Update the current employee's profile."
+    )
     @jwt_required()
     @employee_ns.expect(update_model)
     def put(self):
@@ -103,6 +109,9 @@ class UpdateMyProfile(Resource):
 # View All Employees
 @employee_ns.route('/')
 class AllEmployees(Resource):
+    @employee_ns.doc(
+        description="Get a list of all employees."
+    )
     @jwt_required()
     @employee_ns.marshal_list_with(employee_model)
     def get(self):
@@ -122,6 +131,9 @@ class AllEmployees(Resource):
 # Get Employee Information by ID
 @employee_ns.route('/<int:id>')
 class GetEmployee(Resource):
+    @employee_ns.doc(
+        description="Get information about a specific employee."
+    )
     @jwt_required()
     #@employee_ns.marshal_with(employee_model)
     def get(self, id):
@@ -142,6 +154,9 @@ class GetEmployee(Resource):
 # Update Employee Information
 @employee_ns.route('/<int:id>/update')
 class HRUpdate(Resource):
+    @employee_ns.doc(
+        description="Update employee information by id."
+    )
     @jwt_required()
     @employee_ns.expect(hr_update_model)
     def put(self, id):
@@ -166,6 +181,9 @@ class HRUpdate(Resource):
 # Terminate Employee
 @employee_ns.route('/<int:id>/terminate')
 class TerminateEmployee(Resource):
+    @employee_ns.doc(
+        description="Terminate an employee by id."
+    )
     @jwt_required()
     def put(self, id):
         emp = get_current_employee()
