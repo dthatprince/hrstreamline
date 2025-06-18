@@ -36,4 +36,31 @@ flask --app app --debug run
 
 The application will run at **`http://127.0.0.1:5000/`**
 
----
+
+
+
+# Start the app with Docker Compose
+```bash: 
+docker-compose up --build
+```
+The app will be available at: http://localhost:5000
+
+
+# Manual Development
+### Start Redis (locally):
+```bash: 
+redis-server
+```
+### Start Celery Worker:
+```bash: 
+celery -A celery_worker.celery worker --loglevel=info
+```
+### Start Celery Beat:
+```bash: 
+celery -A celery_worker.celery beat --loglevel=info
+```
+### Or combined:
+```bash: 
+celery -A celery_worker.celery worker --beat --loglevel=info
+```
+
