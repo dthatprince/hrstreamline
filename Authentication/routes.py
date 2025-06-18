@@ -36,11 +36,6 @@ message_model = auth_ns.model('Message', {
 
 
 
-@auth_ns.route('/')
-class Home(Resource):
-    def get(self):
-        return {"message": "API is working!"}
-
 @auth_ns.route('/register')
 class Register(Resource):
     @auth_ns.expect(register_model)

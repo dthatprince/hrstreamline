@@ -32,7 +32,16 @@ def create_app():
     
     
     # Initialize Flask-RESTX Api with Swagger docs on /docs - http://127.0.0.1:5000/docs
-    api = Api(app, version='1.0', title='HR Streamline API', description='API documentation')
+    api = Api(app, version='1.0', title='HR Streamline API', description='API documentation',
+          security='Bearer',
+          authorizations={
+              'Bearer': {
+                  'type': 'apiKey',
+                  'in': 'header',
+                  'name': 'Authorization',
+                  'description': 'JWT token with `Bearer <JWT>` format'
+              }
+          })
     
     # Register the auth namespace
     api.add_namespace(auth_ns)
