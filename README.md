@@ -3,7 +3,7 @@ A Human Resource Management System (HRMS) designed to streamline core HR process
 
 ## Live Demo
 - AI Assistant for reporting: https://ai-hrstreamline-dthatprince.streamlit.app/
-- API & Documentation: 
+- API & Documentation: https://dthatprince-hrstreamline-api.onrender.com/
 
 ## Installation & Setup
 
