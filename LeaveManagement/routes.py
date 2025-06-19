@@ -91,6 +91,73 @@ class MyLeaveRequests(Resource):
         return leave_ns.marshal(requests, leave_request_model), 200
 
 
+@leave_ns.route('/<int:id>/edit')
+class EditLeaveRequest(Resource):
+    @leave_ns.doc(description='Edit a pending leave request')
+    @jwt_required()
+    @leave_ns.expect(request_input_model)
+    def put(self, id):
+        claims = get_current_employee()
+        data = request.json
+
+        leave_request = LeaveRequest.query.get_or_404(id)
+
+        # Only the owner can edit their leave request and only if it's pending
+        if leave_request.employee_id != claims['emp_id']:
+            return {'message': 'You can only edit your own leave requests'}, 403
+
+        if leave_request.status != LeaveStatusEnum.PENDING:
+            return {'message': 'Only pending leave requests can be edited'}, 400
+
+        try:
+            start_date = datetime.strptime(data['start_date'], "%Y-%m-%d").date()
+            end_date = datetime.strptime(data['end_date'], "%Y-%m-%d").date()
+        except ValueError:
+            return {'message': 'Invalid date format. Use YYYY-MM-DD.'}, 400
+
+        if end_date < start_date:
+            return {'message': 'End date must be after start date.'}, 400
+
+        days_requested = (end_date - start_date).days + 1
+
+        employee = Employee.query.get(claims['emp_id'])
+        if not employee or (employee.emp_leave_balance or 0) + leave_request.days_requested < days_requested:
+            # Add back old days_requested before checking balance
+            return {'message': 'Insufficient leave balance for updated dates'}, 400
+
+        # Update the leave request fields
+        leave_request.leave_type = data['leave_type']
+        leave_request.start_date = start_date
+        leave_request.end_date = end_date
+        leave_request.days_requested = days_requested
+        leave_request.reason = data['reason']
+
+        db.session.commit()
+        return {'message': 'Leave request updated successfully'}, 200
+
+
+@leave_ns.route('/<int:id>/delete')
+class DeleteLeaveRequest(Resource):
+    @leave_ns.doc(description='Delete a pending leave request')
+    @jwt_required()
+    def delete(self, id):
+        claims = get_current_employee()
+        leave_request = LeaveRequest.query.get_or_404(id)
+
+        # Only owner can delete their own leave request
+        if leave_request.employee_id != claims['emp_id']:
+            return {'message': 'You can only delete your own leave requests'}, 403
+
+        # Only pending requests can be deleted
+        if leave_request.status != LeaveStatusEnum.PENDING:
+            return {'message': 'Only pending leave requests can be deleted'}, 400
+
+        db.session.delete(leave_request)
+        db.session.commit()
+
+        return {'message': 'Leave request deleted successfully'}, 200
+
+
 
 @leave_ns.route('/pending')
 class PendingRequests(Resource):
