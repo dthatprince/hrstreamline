@@ -42,15 +42,15 @@ def create_app():
             'and improve employee management within organizations. This system focuses on managing employee data, '
             'tracking leave requests, and automating essential HR tasks to enhance operational efficiency and employee experience.'
         ),
-        #security='Bearer',
-        #authorizations={
-        #    'Bearer': {
-        #         'type': 'apiKey',
-        #         'in': 'header',
-        #         'name': 'Authorization',
-        #         'description': 'JWT token with `Bearer <JWT>` format'
-        #     }
-        # }
+        security='Bearer',
+        authorizations={
+            'Bearer': {
+                 'type': 'apiKey',
+                 'in': 'header',
+                 'name': 'Authorization',
+                 'description': 'JWT token with `Bearer <JWT>` format'
+             }
+        }
     )
     
     # Register the auth namespace
