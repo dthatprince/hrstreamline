@@ -5,6 +5,8 @@ from db import db
 from extensions import bcrypt, blacklist
 from Authentication.models import Auth
 from EmployeeManagement.models import Employee
+from flask import jsonify
+
 
 auth_ns = Namespace('authentication', description='Authentication related operations')
 
@@ -35,6 +37,8 @@ message_model = auth_ns.model('Message', {
 })
 
 
+
+   
 @auth_ns.route('/home')
 class Home(Resource):
     @auth_ns.doc(
