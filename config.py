@@ -12,7 +12,8 @@ class ProductionConfig(Config):
     CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
 
 class DevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_URI = "sqlite:///hr_streamline_app.db"
+    #SQLALCHEMY_DATABASE_URI = "sqlite:///hr_streamline_app.db"
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DEV_DATABASE_URI")
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 
 class TestingConfig(Config):
