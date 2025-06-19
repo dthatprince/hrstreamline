@@ -120,6 +120,10 @@ def main():
     <div class="main-header">
         <h1>🗃️ HR Streamline AI Assistant</h1>
         <p>Ask questions about your HR database in natural language!</p>
+        <a href="https://github.com/dthatprince" target="_blank" style="color:black; text-decoration:none;">
+            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" width="20" style="vertical-align:middle; margin-right:6px;">
+            dthatprince
+        </a>
     </div>
     """, unsafe_allow_html=True)
     
