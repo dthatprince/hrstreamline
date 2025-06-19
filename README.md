@@ -37,6 +37,14 @@ flask --app app --debug run
 The application will run at **`http://127.0.0.1:5000/`**
 
 
+### 6. Run the AI HR Assistant Streamli Application
+```sh
+cd ai_hr_assistant
+streamlit run main.py
+```
+
+The application will run at **`http://localhost:8501/`**
+
 
 
 # Start the app with Docker Compose
