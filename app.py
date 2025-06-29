@@ -38,9 +38,94 @@ def create_app():
         version='1.0',
         title='HR Streamline API - API documentation',
         description=(
-            'A Human Resource Management System (HRMS) designed to streamline core HR processes '
-            'and improve employee management within organizations. This system focuses on managing employee data, '
-            'tracking leave requests, and automating essential HR tasks to enhance operational efficiency and employee experience.'
+            """
+A Human Resource Management System (HRMS) designed to streamline core HR processes 
+and improve employee management within organizations. This system focuses on managing employee data, 
+tracking leave requests, and automating essential HR tasks to enhance operational efficiency and employee experience.
+
+# 🗂️ Leave Management API – User Roles & Test Accounts
+
+## 👥 User Roles & Permissions
+
+| **Role**   | **Department**      | **Permissions** |
+|------------|---------------------|------------------|
+| 🧑‍💼 **Staff**    | Any                 | - Submit leave requests<br>- View own leave history<br>- Edit/delete own pending requests<br>- Check leave balance<br>- Mark self as on leave |
+| 👨‍💼 **Manager**  | e.g., Engineering   | - All **Staff** permissions<br>- View & approve/reject pending requests **in their department**<br>- Cannot approve Admins or users outside their department |
+| 🧑‍💼 **Admin (HR)** | Human Resource     | - All **Staff** permissions<br>- View all pending requests across departments<br>- Approve/reject any **Staff** and **Manager** leave requests<br>- Cannot approve/reject other Admins<br>- Final authority in approval workflow |
+
+---
+
+## 🔑 Test User Accounts
+
+### 🧑‍💼 Staff – Engineering
+```json
+{
+  "email": "cristiano.ronaldo@cr7.com",
+  "password": "Password123!"
+}
+```
+
+### 🧑‍💼 Staff – Research
+```json
+{
+  "email": "burna.boy@example.com",
+  "password": "afrobeatKing2024"
+}
+```
+
+### 🧑‍💼 Staff – Sales
+```json
+{
+  "email": "antoine.griezmann@example.com",
+  "password": "anotherPass789"
+}
+```
+
+---
+
+### 👨‍💼 Manager – Engineering
+```json
+{
+  "email": "messi.leo@goat.com",
+  "password": "MessiRocks10!"
+}
+```
+
+---
+
+### 🧑‍💼 Admin (HR)
+```json
+{
+  "email": "serena.williams@tennis.com",
+  "password": "SerenaPower23!"
+}
+```
+
+## 🔐 Authorize with Token
+
+After logging in and receiving your access token, click the **Authorize** padlock icon on the top right and paste your token in the following format:
+
+```
+Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1MTE1ODMxMSwianRpIjoiNzBlMTYzNGEtZTIyMS00YWRmLTlkMWItZDc0ODRhNmFkMTM4Iiw
+```
+
+---
+
+## ✅ Role Permissions Matrix
+
+| **Action**                       | **Staff** | **Manager** | **Admin** |
+|----------------------------------|-----------|-------------|-----------|
+| Submit leave request             | ✅        | ✅          | ✅        |
+| View own leave history           | ✅        | ✅          | ✅        |
+| Edit/delete own pending request | ✅        | ✅          | ✅        |
+| View leave balance               | ✅        | ✅          | ✅        |
+| View department leave requests   | ❌        | ✅          | ✅        |
+| Approve/reject department leaves | ❌        | ✅          | ✅        |
+| View all leave requests          | ❌        | ❌          | ✅        |
+| Approve/reject Admin requests    | ❌        | ❌          | ❌        |
+"""
+        
+        
         ),
         security='Bearer',
         authorizations={
