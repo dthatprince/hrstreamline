@@ -40,6 +40,31 @@ status_update_model = leave_ns.model('StatusUpdate', {
 
 
 # Routes
+@leave_ns.route('/all-requests')
+class AllLeaveRequests(Resource):
+    @leave_ns.doc(description='View leave requests based on role access (admin and manager only)')
+    @jwt_required()
+    def get(self):
+        claims = get_current_employee()
+
+        if claims['emp_rank'] not in ['admin', 'manager']:
+            return {'message': 'Access denied. Use /my-requests to view your leave requests.'}, 403
+
+        query = LeaveRequest.query.join(Employee)
+
+        if claims['emp_rank'] == 'admin':
+            # Admin sees all leave requests
+            pass  # no filter needed
+
+        elif claims['emp_rank'] == 'manager':
+            # Manager sees only leave requests in their department
+            query = query.filter(Employee.emp_department == claims['emp_department'])
+
+        results = query.order_by(LeaveRequest.start_date.desc()).all()
+        return leave_ns.marshal(results, leave_request_model), 200
+
+
+
 @leave_ns.route('/request')
 class LeaveRequestSubmit(Resource):
     @leave_ns.doc(description='Submit a leave request')
