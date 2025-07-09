@@ -40,7 +40,8 @@ def create_app():
       description=(
         'A Human Resource Management System (HRMS) designed to streamline core HR processes '
         'and improve employee management within organizations. This system focuses on managing employee data, '
-        'tracking leave requests, and automating essential HR tasks to enhance operational efficiency and employee experience.'
+        'tracking leave requests, and automating essential HR tasks to enhance operational efficiency and employee experience.\n\n'
+        'To get login account access and access control documentation, visit the <a href="https://github.com/dthatprince/hrstreamline/blob/postgresql-version/docs.md" target="_blank">Testing Docs</a>.'
       ),
       security='Bearer',
       authorizations={
