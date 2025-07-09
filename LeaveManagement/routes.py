@@ -50,7 +50,9 @@ class AllLeaveRequests(Resource):
         if claims['emp_rank'] not in ['admin', 'manager']:
             return {'message': 'Access denied. Use /my-requests to view your leave requests.'}, 403
 
-        query = LeaveRequest.query.join(Employee)
+        #query = LeaveRequest.query.join(Employee)
+        query = LeaveRequest.query.join(Employee, LeaveRequest.employee_id == Employee.id)
+
 
         if claims['emp_rank'] == 'admin':
             # Admin sees all leave requests
@@ -105,7 +107,7 @@ class LeaveRequestSubmit(Resource):
 
 
 
-@leave_ns.route('/my-requests')
+@leave_ns.route('/my-requests') 
 class MyLeaveRequests(Resource):
     @leave_ns.doc(description='Get my leave requests')
     @jwt_required()
@@ -113,7 +115,18 @@ class MyLeaveRequests(Resource):
         claims = get_current_employee()
         requests = LeaveRequest.query.filter_by(employee_id=claims['emp_id']) \
                                      .order_by(LeaveRequest.start_date.desc()).all()
-        return leave_ns.marshal(requests, leave_request_model), 200
+        
+        if not requests:
+            return {
+                "message": "You have no leave requests yet.",
+                "data": []
+            }, 200
+
+        return {
+            "message": "Leave requests retrieved successfully.",
+            "data": leave_ns.marshal(requests, leave_request_model)
+        }, 200
+
 
 
 @leave_ns.route('/<int:id>/edit')
@@ -193,7 +206,9 @@ class PendingRequests(Resource):
         if claims['emp_rank'] not in ['manager', 'admin']:
             return {'message': 'Access denied'}, 403
 
-        query = LeaveRequest.query.join(Employee)
+        #query = LeaveRequest.query.join(Employee)
+        query = LeaveRequest.query.join(Employee, LeaveRequest.employee_id == Employee.id)
+
 
         if claims['emp_rank'] == 'manager':
             query = query.filter(

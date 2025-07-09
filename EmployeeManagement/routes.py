@@ -51,8 +51,8 @@ hr_update_model = employee_ns.model('HRUpdate', {
     'emp_team': fields.String,
     'emp_position': fields.String,
     'emp_rank': fields.String,
-    'emp_end_date': fields.String,
-    'emp_status': fields.String
+    #'emp_end_date': fields.String,
+    #'emp_status': fields.String
 })
 
 
