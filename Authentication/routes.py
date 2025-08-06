@@ -38,7 +38,7 @@ message_model = auth_ns.model('Message', {
 
 
 
-   
+'''   
 @auth_ns.route('/home')
 class Home(Resource):
     @auth_ns.doc(
@@ -47,6 +47,7 @@ class Home(Resource):
     @jwt_required()
     def get(self):
         return {"message": "API is working!"}
+'''
 
 @auth_ns.route('/register')
 class Register(Resource):
