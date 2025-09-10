@@ -2,7 +2,7 @@
 A Human Resource Management System (HRMS) designed to streamline core HR processes and improve employee management within organizations. This system focuses on managing employee data, tracking leave requests, and automating essential HR tasks to enhance operational efficiency and employee experience.
 
 ## Live Demo
-- AI Assistant for reporting: [https://ai-hrstreamline-dthatprince.streamlit.app/](https://aihrstreamline-dthatprince.streamlit.app/)
+- AI Assistant for reporting: [https://aihrstreamline-dthatprince.streamlit.app/](https://aihrstreamline-dthatprince.streamlit.app/)
 - API & Documentation: [https://dthatprince-hrstreamline-api.onrender.com/](https://dthatprince-hrstreamline-api.onrender.com)
 
 ## Installation & Setup
