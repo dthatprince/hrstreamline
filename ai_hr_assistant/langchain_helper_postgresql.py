@@ -199,7 +199,7 @@ def get_few_shot_postgresql_chain():
     """Create and configure the few-shot PostgreSQL chain"""
     
     # Get database connection string from environment or use default
-    database_url = os.environ.get("DEV_DATABASE_URI", "postgresql://postgres:tunga123@localhost:5432/hr_streamline_db")
+    database_url = os.environ.get("DEV_DATABASE_URI")
     
     try:
         # Try with minimal connection first
