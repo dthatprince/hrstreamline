@@ -38,6 +38,9 @@ def create_app():
       version='1.0',
       title='HR Streamline API - API documentation',
       description=(
+        'HR Streamline AI Assistant - LIVE DEMO: '
+        '<a href="https://aihrstreamline-dthatprince.streamlit.app/" target="_blank">'
+        'https://aihrstreamline-dthatprince.streamlit.app/</a><br><br>'
         'A Human Resource Management System (HRMS) designed to streamline core HR processes '
         'and improve employee management within organizations. This system focuses on managing employee data, '
         'tracking leave requests, and automating essential HR tasks to enhance operational efficiency and employee experience.\n\n'
