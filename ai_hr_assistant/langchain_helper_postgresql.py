@@ -226,7 +226,7 @@ def get_few_shot_postgresql_chain():
         raise ValueError("GOOGLE_API_KEY environment variable is required")
     
     llm = ChatGoogleGenerativeAI(
-        model="gemini-2.0-flash",
+        model="gemini-2.5-flash",
         google_api_key=api_key,
         temperature=0.1,
     )
