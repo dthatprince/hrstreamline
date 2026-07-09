@@ -1,6 +1,11 @@
 # hrstreamline
 A Human Resource Management System (HRMS) designed to streamline core HR processes and improve employee management within organizations. This system focuses on managing employee data, tracking leave requests, and automating essential HR tasks to enhance operational efficiency and employee experience.
 
+<img width="956" height="515" alt="image" src="https://github.com/user-attachments/assets/2a7c9851-0084-4482-bb0c-f327143c83cd" />
+
+<img width="952" height="518" alt="image" src="https://github.com/user-attachments/assets/5c82f218-e829-4ecb-8b23-ba1ce846e8be" />
+
+
 ## Live Demo
 - AI Assistant for reporting: [https://aihrstreamline-dthatprince.streamlit.app/](https://aihrstreamline-dthatprince.streamlit.app/)
 - API & Documentation: [https://dthatprince-hrstreamline-api.onrender.com/](https://dthatprince-hrstreamline-api.onrender.com)
